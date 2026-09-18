@@ -4,136 +4,846 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>xC // our little world</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 html{scroll-behavior:smooth}
-body{background:#000;color:#ddd;font-family:"Courier New",monospace;min-height:100vh;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:8px;border:1px solid rgba(255,0,0,.25);pointer-events:none;z-index:20}
-.background{position:fixed;inset:0;z-index:-3;background:url("xc.png") center/cover no-repeat;opacity:.20;filter:brightness(.45) contrast(1.25)}
-.overlay{position:fixed;inset:0;z-index:-2;background:radial-gradient(circle,transparent 10%,rgba(0,0,0,.65) 55%,#000 100%);pointer-events:none}
-.site{width:86%;max-width:1320px;margin:auto;padding:30px 0}
-nav{min-height:75px;display:grid;grid-template-columns:1fr auto 1fr;align-items:start}
-.nav-logo img{width:130px;height:55px;object-fit:contain;object-position:left center}
-.nav-links{display:flex;gap:45px;padding-top:13px}
-.nav-links a{color:#aaa;text-decoration:none;font-size:14px}
-.nav-links a:hover,.nav-links a.active{color:#f00}
-.nav-links a.active{padding-bottom:13px;border-bottom:2px solid #f00}
-.nav-right{justify-self:end;color:#f00;text-align:right;font-size:13px;padding-top:10px}
-.nav-right small{display:block;font-size:9px;margin-top:6px}
-.hero{text-align:center;margin-bottom:55px}
-.hero-logo{display:block;width:min(820px,72vw);height:430px;margin:auto;object-fit:contain;filter:drop-shadow(0 0 22px rgba(255,0,0,.4))}
-.hero h1{font-size:18px;font-weight:normal;letter-spacing:5px;margin-top:-5px}
-.hero p{color:#888;font-size:13px;margin-top:10px}
-.content{display:grid;grid-template-columns:1fr 1.55fr 1fr;gap:48px}
-.box{min-height:270px;padding:30px;background:rgba(0,0,0,.72);border:1px solid rgba(255,0,0,.22);position:relative}
-.box:before{content:"";position:absolute;left:-1px;top:-1px;width:45px;height:25px;border-left:2px solid #f00;border-top:2px solid #f00}
-.box h2{font-size:14px;font-weight:normal;letter-spacing:3px;margin-bottom:30px}
-.box p{color:#999;font-size:13px;line-height:1.8;margin-bottom:15px}
-.member-card{display:flex;align-items:center;gap:13px;min-height:70px;padding:9px 4px;border-bottom:1px solid rgba(255,0,0,.16);text-decoration:none;color:#fff;transition:.2s}
-.member-card:hover{background:rgba(255,0,0,.07);transform:translateX(5px)}
-.member-number{width:22px;color:#444;font-size:9px}
-.avatar-wrap{position:relative;flex-shrink:0}
-.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,0,0,.5)}
-.status{position:absolute;right:-1px;bottom:-1px;width:13px;height:13px;border-radius:50%;background:#444;border:2px solid #000}
-.status.online{background:#23a55a}.status.idle{background:#f0b232}.status.dnd{background:#f23f43}
-.member-info{flex:1;min-width:0}
-.name-line{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.member-name{font-size:14px;color:#eee}
-.member-rank{display:inline-block;padding:3px 7px;border:1px solid rgba(255,0,0,.5);color:#f00;background:rgba(255,0,0,.05);font-size:8px;letter-spacing:1px}
-.member-discord{color:#777;font-size:10px;margin-top:5px}
-.member-arrow{color:#f00;font-size:20px}
-.discord-button{display:inline-flex;align-items:center;gap:12px;margin-top:15px;padding:14px 20px;border:1px solid #f00;color:#f00;text-decoration:none;font-size:12px}
-footer{display:flex;justify-content:space-between;padding:20px 0 40px;margin-top:70px;border-top:1px solid rgba(255,0,0,.25);color:#444;font-size:11px}
-@media(max-width:850px){
-.site{width:90%}nav{grid-template-columns:auto 1fr;gap:15px}.nav-logo img{width:80px;height:42px}.nav-links{justify-content:flex-end;gap:18px;padding-top:10px}.nav-links a{font-size:10px}.nav-right{display:none}
-.hero-logo{width:100%;height:310px}.content{grid-template-columns:1fr;gap:22px}.box{min-height:auto}
+
+body{
+    background:#000;
+    color:#ddd;
+    font-family:"Courier New",monospace;
+    min-height:100vh;
+    overflow-x:hidden
 }
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:8px;
+    border:1px solid rgba(255,0,0,.25);
+    pointer-events:none;
+    z-index:20
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background:url("xc.png") center/cover no-repeat;
+    opacity:.20;
+    filter:brightness(.45) contrast(1.25)
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:radial-gradient(
+        circle,
+        transparent 10%,
+        rgba(0,0,0,.65) 55%,
+        #000 100%
+    );
+    pointer-events:none
+}
+
+.site{
+    width:86%;
+    max-width:1320px;
+    margin:auto;
+    padding:30px 0
+}
+
+/* NAV */
+
+nav{
+    min-height:75px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:start
+}
+
+.nav-logo img{
+    width:130px;
+    height:55px;
+    object-fit:contain;
+    object-position:left center
+}
+
+.nav-links{
+    display:flex;
+    gap:45px;
+    padding-top:13px
+}
+
+.nav-links a{
+    color:#aaa;
+    text-decoration:none;
+    font-size:14px
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:#f00
+}
+
+.nav-links a.active{
+    padding-bottom:13px;
+    border-bottom:2px solid #f00
+}
+
+.nav-right{
+    justify-self:end;
+    color:#f00;
+    text-align:right;
+    font-size:13px;
+    padding-top:10px
+}
+
+.nav-right small{
+    display:block;
+    font-size:9px;
+    margin-top:6px
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    margin-bottom:55px
+}
+
+.hero-logo{
+    display:block;
+    width:min(820px,72vw);
+    height:430px;
+    margin:auto;
+    object-fit:contain;
+    filter:drop-shadow(
+        0 0 22px rgba(255,0,0,.4)
+    )
+}
+
+.hero h1{
+    font-size:18px;
+    font-weight:normal;
+    letter-spacing:5px;
+    margin-top:-5px
+}
+
+.hero p{
+    color:#888;
+    font-size:13px;
+    margin-top:10px
+}
+
+/* CONTENT */
+
+.content{
+    display:grid;
+    grid-template-columns:1fr 1.55fr 1fr;
+    gap:48px
+}
+
+.box{
+    min-height:270px;
+    padding:30px;
+    background:rgba(0,0,0,.72);
+    border:1px solid rgba(255,0,0,.22);
+    position:relative
+}
+
+.box:before{
+    content:"";
+    position:absolute;
+    left:-1px;
+    top:-1px;
+    width:45px;
+    height:25px;
+    border-left:2px solid #f00;
+    border-top:2px solid #f00
+}
+
+.box h2{
+    font-size:14px;
+    font-weight:normal;
+    letter-spacing:3px;
+    margin-bottom:30px
+}
+
+.box p{
+    color:#999;
+    font-size:13px;
+    line-height:1.8;
+    margin-bottom:15px
+}
+
+/* MEMBERS */
+
+.member-card{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    min-height:70px;
+    padding:9px 4px;
+    border-bottom:1px solid rgba(255,0,0,.16);
+    text-decoration:none;
+    color:#fff;
+    transition:.2s
+}
+
+.member-card:hover{
+    background:rgba(255,0,0,.07);
+    transform:translateX(5px)
+}
+
+.member-number{
+    width:22px;
+    color:#444;
+    font-size:9px
+}
+
+.avatar-wrap{
+    position:relative;
+    flex-shrink:0
+}
+
+.avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid rgba(255,0,0,.5)
+}
+
+.status{
+    position:absolute;
+    right:-1px;
+    bottom:-1px;
+    width:13px;
+    height:13px;
+    border-radius:50%;
+    background:#444;
+    border:2px solid #000
+}
+
+.status.online{background:#23a55a}
+.status.idle{background:#f0b232}
+.status.dnd{background:#f23f43}
+
+.member-info{
+    flex:1;
+    min-width:0
+}
+
+.name-line{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    flex-wrap:wrap
+}
+
+.member-name{
+    font-size:14px;
+    color:#eee
+}
+
+.member-rank{
+    display:inline-block;
+    padding:3px 7px;
+    border:1px solid rgba(255,0,0,.5);
+    color:#f00;
+    background:rgba(255,0,0,.05);
+    font-size:8px;
+    letter-spacing:1px
+}
+
+.member-discord{
+    color:#777;
+    font-size:10px;
+    margin-top:5px
+}
+
+.member-arrow{
+    color:#f00;
+    font-size:20px
+}
+
+/* DISCORD */
+
+.discord-button{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    margin-top:15px;
+    padding:14px 20px;
+    border:1px solid #f00;
+    color:#f00;
+    text-decoration:none;
+    font-size:12px
+}
+
+.discord-button:hover{
+    background:#f00;
+    color:#000
+}
+
+/* SPOTIFY */
+
+.spotify-player{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:320px;
+    z-index:15;
+    border:1px solid rgba(255,0,0,.45);
+    background:#050505;
+    box-shadow:
+        0 0 25px rgba(255,0,0,.18);
+    padding:6px
+}
+
+.spotify-title{
+    color:#f00;
+    font-size:9px;
+    letter-spacing:2px;
+    padding:6px 8px 5px;
+    text-align:left
+}
+
+.spotify-player iframe{
+    display:block;
+    width:100%;
+    height:80px;
+    border:0
+}
+
+/* FOOTER */
+
+footer{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 0 40px;
+    margin-top:70px;
+    border-top:1px solid rgba(255,0,0,.25);
+    color:#444;
+    font-size:11px
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .site{
+        width:90%
+    }
+
+    nav{
+        grid-template-columns:auto 1fr;
+        gap:15px
+    }
+
+    .nav-logo img{
+        width:80px;
+        height:42px
+    }
+
+    .nav-links{
+        justify-content:flex-end;
+        gap:18px;
+        padding-top:10px
+    }
+
+    .nav-links a{
+        font-size:10px
+    }
+
+    .nav-right{
+        display:none
+    }
+
+    .hero-logo{
+        width:100%;
+        height:310px
+    }
+
+    .content{
+        grid-template-columns:1fr;
+        gap:22px
+    }
+
+    .box{
+        min-height:auto
+    }
+
+    .spotify-player{
+        width:280px;
+        right:15px;
+        bottom:15px
+    }
+}
+
 @media(max-width:500px){
-.site{width:90%;padding-top:20px}.nav-links{gap:12px}.nav-links a{font-size:9px}.hero-logo{height:250px}.hero h1{font-size:15px}.hero p{font-size:10px}.box{padding:22px}
+
+    .site{
+        width:90%;
+        padding-top:20px
+    }
+
+    .nav-links{
+        gap:12px
+    }
+
+    .nav-links a{
+        font-size:9px
+    }
+
+    .hero-logo{
+        height:250px
+    }
+
+    .hero h1{
+        font-size:15px
+    }
+
+    .hero p{
+        font-size:10px
+    }
+
+    .box{
+        padding:22px
+    }
+
+    .spotify-player{
+        width:calc(100% - 30px);
+        right:15px;
+        bottom:15px
+    }
 }
 </style>
 </head>
+
 <body>
-<div class="background"></div><div class="overlay"></div>
+
+<div class="background"></div>
+<div class="overlay"></div>
 
 <div class="site">
+
 <nav>
-  <div class="nav-logo">
-    <img src="https://cdn.discordapp.com/attachments/1545911491243409408/1547273613466542170/1788876582573.png?ex=6aacb598&is=6aab6418&hm=5802589cf440da5d5643ad126b9338e9408cf7aa40eb1b321286c88008cfce6f&" alt="xC">
-  </div>
-  <div class="nav-links">
-    <a class="active" href="#about">about</a>
-    <a href="#members">members</a>
-    <a href="#discord">discord</a>
-  </div>
-  <div class="nav-right">// xC<small>&lt; our little world /&gt;</small></div>
+
+    <div class="nav-logo">
+        <img
+            src="https://cdn.discordapp.com/attachments/1545911491243409408/1547273613466542170/1788876582573.png?ex=6aacb598&is=6aab6418&hm=5802589cf440da5d5643ad126b9338e9408cf7aa40eb1b321286c88008cfce6f&"
+            alt="xC">
+    </div>
+
+    <div class="nav-links">
+        <a class="active" href="#about">about</a>
+        <a href="#members">members</a>
+        <a href="#discord">discord</a>
+    </div>
+
+    <div class="nav-right">
+        // xC
+        <small>&lt; our little world /&gt;</small>
+    </div>
+
 </nav>
 
+
 <header class="hero">
-  <img class="hero-logo" src="https://cdn.discordapp.com/attachments/1545911491243409408/1547273613466542170/1788876582573.png?ex=6aacb598&is=6aab6418&hm=5802589cf440da5d5643ad126b9338e9408cf7aa40eb1b321286c88008cfce6f&" alt="xC logo">
-  <h1>— xC —</h1>
-  <p>Welcome to our little corner of the internet.</p>
+
+    <img
+        class="hero-logo"
+        src="https://cdn.discordapp.com/attachments/1545911491243409408/1547273613466542170/1788876582573.png?ex=6aacb598&is=6aab6418&hm=5802589cf440da5d5643ad126b9338e9408cf7aa40eb1b321286c88008cfce6f&"
+        alt="xC logo">
+
+    <h1>— xC —</h1>
+
+    <p>
+        Welcome to our little corner of the internet.
+    </p>
+
 </header>
 
+
 <main class="content">
+
 <section class="box" id="about">
-<h2>— ABOUT —</h2>
-<p>Welcome to xC.</p>
-<p>A small place for our community,<br>friends and projects.</p>
-<p>We're just a few people with<br>the same vision.</p>
+
+    <h2>— ABOUT —</h2>
+
+    <p>
+        Welcome to xC.
+    </p>
+
+    <p>
+        A small place for our community,<br>
+        friends and projects.
+    </p>
+
+    <p>
+        We're just a few people with<br>
+        the same vision.
+    </p>
+
 </section>
+
 
 <section class="box" id="members">
-<h2>— MEMBERS —</h2>
-<div id="members-list">
-<a class="member-card" href="https://discord.com/users/1515410764926685322" target="_blank">
-<span class="member-number">01</span><div class="avatar-wrap"><img class="avatar" id="avatar-niro" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="xCNiro"><span id="status-niro" class="status offline"></span></div>
-<div class="member-info"><div class="name-line"><span class="member-name">xCNiro</span><span class="member-rank">CO-OWNER</span></div><div class="member-discord">@xc.niro</div></div><span class="member-arrow">→</span>
-</a>
-<a class="member-card" href="https://discord.com/users/1538292029119922360" target="_blank">
-<span class="member-number">02</span><div class="avatar-wrap"><img class="avatar" id="avatar-ron" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="xCron"><span id="status-ron" class="status offline"></span></div>
-<div class="member-info"><div class="name-line"><span class="member-name">xCron</span><span class="member-rank">OWNER</span></div><div class="member-discord">@aintxcron</div></div><span class="member-arrow">→</span>
-</a>
-<a class="member-card" href="https://discord.com/users/1227206930611572748" target="_blank">
-<span class="member-number">03</span><div class="avatar-wrap"><img class="avatar" id="avatar-stain" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="xCstain"><span id="status-stain" class="status offline"></span></div>
-<div class="member-info"><div class="name-line"><span class="member-name">xCstain</span><span class="member-rank">xC</span></div><div class="member-discord">@33cs</div></div><span class="member-arrow">→</span>
-</a>
-</div>
+
+    <h2>— MEMBERS —</h2>
+
+    <div id="members-list">
+
+        <a
+            class="member-card"
+            href="https://discord.com/users/1515410764926685322"
+            target="_blank">
+
+            <span class="member-number">01</span>
+
+            <div class="avatar-wrap">
+
+                <img
+                    class="avatar"
+                    id="avatar-niro"
+                    src="https://cdn.discordapp.com/embed/avatars/0.png"
+                    alt="xCNiro">
+
+                <span
+                    id="status-niro"
+                    class="status offline">
+                </span>
+
+            </div>
+
+            <div class="member-info">
+
+                <div class="name-line">
+                    <span class="member-name">
+                        xCNiro
+                    </span>
+
+                    <span class="member-rank">
+                        CO-OWNER
+                    </span>
+                </div>
+
+                <div class="member-discord">
+                    @xc.niro
+                </div>
+
+            </div>
+
+            <span class="member-arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <a
+            class="member-card"
+            href="https://discord.com/users/1538292029119922360"
+            target="_blank">
+
+            <span class="member-number">02</span>
+
+            <div class="avatar-wrap">
+
+                <img
+                    class="avatar"
+                    id="avatar-ron"
+                    src="https://cdn.discordapp.com/embed/avatars/0.png"
+                    alt="xCron">
+
+                <span
+                    id="status-ron"
+                    class="status offline">
+                </span>
+
+            </div>
+
+            <div class="member-info">
+
+                <div class="name-line">
+
+                    <span class="member-name">
+                        xCron
+                    </span>
+
+                    <span class="member-rank">
+                        OWNER
+                    </span>
+
+                </div>
+
+                <div class="member-discord">
+                    @aintxcron
+                </div>
+
+            </div>
+
+            <span class="member-arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <a
+            class="member-card"
+            href="https://discord.com/users/1227206930611572748"
+            target="_blank">
+
+            <span class="member-number">03</span>
+
+            <div class="avatar-wrap">
+
+                <img
+                    class="avatar"
+                    id="avatar-stain"
+                    src="https://cdn.discordapp.com/embed/avatars/0.png"
+                    alt="xCstain">
+
+                <span
+                    id="status-stain"
+                    class="status offline">
+                </span>
+
+            </div>
+
+            <div class="member-info">
+
+                <div class="name-line">
+
+                    <span class="member-name">
+                        xCstain
+                    </span>
+
+                    <span class="member-rank">
+                        xC
+                    </span>
+
+                </div>
+
+                <div class="member-discord">
+                    @33cs
+                </div>
+
+            </div>
+
+            <span class="member-arrow">
+                →
+            </span>
+
+        </a>
+
+    </div>
+
 </section>
+
 
 <section class="box" id="discord">
-<h2>— DISCORD —</h2><p>Join our Discord community.</p>
-<a class="discord-button" href="https://discord.gg/V6B3RSs43s" target="_blank" rel="noopener">● &nbsp; .gg/xCrimsonz</a>
+
+    <h2>— DISCORD —</h2>
+
+    <p>
+        Join our Discord community.
+    </p>
+
+    <a
+        class="discord-button"
+        href="https://discord.gg/V6B3RSs43s"
+        target="_blank"
+        rel="noopener">
+
+        ● &nbsp; .gg/xCrimsonz
+
+    </a>
+
 </section>
+
 </main>
 
-<footer><span>© 2026 xC</span><span>&lt; stay connected /&gt;</span></footer>
+
+<footer>
+
+    <span>
+        © 2026 xC
+    </span>
+
+    <span>
+        &lt; stay connected /&gt;
+    </span>
+
+</footer>
+
 </div>
 
+
+<!-- ==========================================
+     FLOATING SPOTIFY PLAYER
+========================================== -->
+
+<div class="spotify-player">
+
+    <div class="spotify-title">
+        // NOW PLAYING — xC
+    </div>
+
+    <iframe
+        src="https://open.spotify.com/embed/track/0jByCc9MS4p34rE3o9Cdmw?utm_source=generator&theme=0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="eager">
+    </iframe>
+
+</div>
+
+
 <script>
+
+/* ==========================================
+   DISCORD LIVE DATA
+========================================== */
+
 const people=[
-["1515410764926685322","avatar-niro","status-niro"],
-["1538292029119922360","avatar-ron","status-ron"],
-["1227206930611572748","avatar-stain","status-stain"]
+    [
+        "1515410764926685322",
+        "avatar-niro",
+        "status-niro"
+    ],
+    [
+        "1538292029119922360",
+        "avatar-ron",
+        "status-ron"
+    ],
+    [
+        "1227206930611572748",
+        "avatar-stain",
+        "status-stain"
+    ]
 ];
+
+
 async function updateDiscord(){
- for(const [id,avatarId,statusId] of people){
-  try{
-   const r=await fetch("https://api.lanyard.rest/v1/users/"+id,{cache:"no-store"});
-   const j=await r.json();
-   if(!j.success||!j.data)continue;
-   const u=j.data.discord_user;
-   if(u&&u.avatar){
-    const ext=u.avatar.startsWith("a_")?"gif":"png";
-    document.getElementById(avatarId).src=`https://cdn.discordapp.com/avatars/${id}/${u.avatar}.${ext}?size=128`;
-   }
-   const s=document.getElementById(statusId);
-   s.className="status "+(j.data.discord_status||"offline");
-  }catch(e){}
- }
+
+    for(
+        const [id,avatarId,statusId]
+        of people
+    ){
+
+        try{
+
+            const r=await fetch(
+                "https://api.lanyard.rest/v1/users/"+id,
+                {
+                    cache:"no-store"
+                }
+            );
+
+            const j=await r.json();
+
+            if(
+                !j.success ||
+                !j.data
+            ) continue;
+
+
+            const u=j.data.discord_user;
+
+
+            /* AVATAR */
+
+            if(
+                u &&
+                u.avatar
+            ){
+
+                const ext=
+                    u.avatar.startsWith("a_")
+                    ? "gif"
+                    : "png";
+
+                document.getElementById(
+                    avatarId
+                ).src=
+                    `https://cdn.discordapp.com/avatars/${id}/${u.avatar}.${ext}?size=128`;
+
+            }
+
+
+            /* STATUS */
+
+            const s=
+                document.getElementById(
+                    statusId
+                );
+
+            s.className=
+                "status "+
+                (
+                    j.data.discord_status ||
+                    "offline"
+                );
+
+        }
+
+        catch(e){
+
+            console.log(
+                "Discord data unavailable"
+            );
+
+        }
+
+    }
+
 }
+
+
+/* Initial Discord update */
+
 updateDiscord();
-setInterval(updateDiscord,30000);
+
+
+/* Update every 30 seconds */
+
+setInterval(
+    updateDiscord,
+    30000
+);
+
+
+/* ==========================================
+   TRY TO START SPOTIFY
+========================================== */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        /*
+         * Spotify controls playback inside
+         * its own iframe.
+         *
+         * The browser may block autoplay
+         * until the visitor interacts with
+         * the page.
+         */
+
+        console.log(
+            "xC Spotify player loaded."
+        );
+
+    }
+);
+
 </script>
+
 </body>
 </html>
